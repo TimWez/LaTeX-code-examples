@@ -1,0 +1,56 @@
+% This files contains the needed packages and definitions to create a code environment(minted) in a tcolorbox.
+% This is a minimalist example, and may need some changes for your particular use case.
+
+% When using overleaf everything should be fine. If you compile LaTeX localy, make sure to pass the --shell-escape as a custom compiler argument.
+
+
+\documentclass{article}
+
+\usepackage{minted}                                             % Used for displaying code
+\usepackage{tcolorbox}                                          % Used for creating the box around the code
+
+
+\definecolor{myBackground_grey}{RGB}{246, 246, 246}             % Defining the color of the background in rgb values
+\definecolor{myFrame_blue}{RGB}{53,115,166}                     % Defining the color of the frame. This particular example has the same rgb values for blue as GitHub uses for Python code. 
+                                                                % Those values are retriefed from this GitHub repository and the help of an rgb picker: https://github.com/ozh/github-colors?tab=readme-ov-file
+
+\tcbuselibrary{minted,skins,breakable}                          % This is the main function. For multiple languages or diffrent settings, it is recomended to copy and rename this function.
+\newtcblisting{pythoncode}[2][]{                                % You should rename the 'pythoncode' part in the curly brackets. This is also the name you use for the \begin{} and \end{} for the actual code windows.
+  listing engine=minted,
+  breakable,                                                    
+  colback=myBackground_grey,                                    % This sets the previous defined color as the frame color.
+  colframe=myFrame_blue,                                        % This sets the previous defined color as the frame color.
+  listing only,
+  minted style=tango,                                           % This sets the syntax highlighting style. You can chose from almost all minted, listings and verbatim supported styles.
+  minted language=python,                                       % This sets the language of the displayed code. You can chose from almost all minted, listings and verbatim supported languages.
+  minted options={numbersep=3mm,texcl=true,#1},
+  left=5mm,enhanced,
+  overlay={\begin{tcbclipinterior}\fill[black!25] (frame.south west)            % This creates the gray bar on the left in which the linenumber are displayed. If you just want the linenumbers and not the bar, delete this part.
+            rectangle ([xshift=5mm]frame.north west);\end{tcbclipinterior}},    % The \fill[black!25] sets the color of the bar.
+  #2
+}
+
+
+\begin{document}
+
+
+% This creates the actual code window. If you named your function differently, change the 'pythoncode' part to your name.
+% linenos=true gives you the linenumbers. Delete this if you dont want them. 
+% fontsize=\footnotesize sets the size of the code to footnote. This doesnt change the header size.
+% title = ..... sets the title of the header. with useing \hfill the 'Python 3.11' part is set all the way to the right.
+
+
+\begin{pythoncode}[linenos=true, fontsize=\footnotesize]{title=Character index \hfill Python 3.11}     
+characters_to_rotation = {                                                                            
+    (0,0,0): 0,                                                                                       
+    (0,0,1): 1,                                                                                        
+    (0,1,0): 2,
+    (0,1,1): 3,
+    (1,0,0): 4,
+    (1,0,1): 5,
+    (1,1,0): 6,
+    (1,1,1): 7
+}
+\end{pythoncode}
+
+\end{document}
